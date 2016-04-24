@@ -1,5 +1,7 @@
 package com.epicodus.myrestaurants.services;
 
+import android.util.Log;
+
 import com.epicodus.myrestaurants.Constants;
 import com.epicodus.myrestaurants.models.Restaurant;
 
@@ -23,7 +25,7 @@ import se.akerfeldt.okhttp.signpost.SigningInterceptor;
  * Created by abigailrolling on 4/24/16.
  */
 public class YelpService {
-    public static void findRestaurants(String location, Callback callback) {
+    public void findRestaurants(String location, Callback callback) {
         String CONSUMER_KEY = Constants.YELP_CONSUMER_KEY;
         String CONSUMER_SECRET = Constants.YELP_CONSUMER_SECRET;
         String TOKEN = Constants.YELP_TOKEN;
@@ -52,6 +54,7 @@ public class YelpService {
 
         try {
             String jsonData = response.body().string();
+            Log.d("Jsondata", jsonData);
             if (response.isSuccessful()) {
                 JSONObject yelpJSON = new JSONObject(jsonData);
                 JSONArray businessesJSON = yelpJSON.getJSONArray("businesses");
