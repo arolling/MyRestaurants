@@ -3,6 +3,7 @@ package com.epicodus.myrestaurants.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ import butterknife.ButterKnife;
  * Created by abigailrolling on 4/24/16.
  */
 public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAdapter.RestaurantViewHolder> {
+    public static final String TAG = RestaurantListAdapter.class.getSimpleName();
     private ArrayList<Restaurant> mRestaurants = new ArrayList<>();
     private Context mContext;
 
@@ -55,29 +57,30 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
         @Bind(R.id.restaurantNameTextView) TextView mNameTextView;
         @Bind(R.id.categoryTextView) TextView mCategoryTextView;
         @Bind(R.id.ratingTextView) TextView mRatingTextView;
-        private Context mHolderContext;
+        private Context mContext;
 
 
         public RestaurantViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            mHolderContext = itemView.getContext();
+            mContext = itemView.getContext();
 
             itemView.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
                     int itemPosition = getLayoutPosition();
-                    Intent intent = new Intent(mHolderContext, RestaurantDetailActivity.class);
+                    Log.v(TAG, "clicked " + itemPosition);
+                    Intent intent = new Intent(mContext, RestaurantDetailActivity.class);
                     intent.putExtra("position", itemPosition + "");
                     intent.putExtra("restaurants", Parcels.wrap(mRestaurants));
-                    mHolderContext.startActivity(intent);
+                    mContext.startActivity(intent);
                 }
             });
         }
 
         public void bindRestaurant(Restaurant restaurant) {
-            Picasso.with(mHolderContext).load(restaurant.getImageUrl()).into(mRestaurantImageView);
+            Picasso.with(mContext).load(restaurant.getImageUrl()).into(mRestaurantImageView);
             mNameTextView.setText(restaurant.getName());
             mCategoryTextView.setText(restaurant.getCategories().get(0));
             mRatingTextView.setText("Rating: " + restaurant.getRating() + "/5");
