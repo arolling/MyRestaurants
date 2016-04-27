@@ -26,6 +26,8 @@ import butterknife.ButterKnife;
  * Created by abigailrolling on 4/24/16.
  */
 public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAdapter.RestaurantViewHolder> {
+    private static final int MAX_WIDTH = 200;
+    private static final int MAX_HEIGHT = 200;
     public static final String TAG = RestaurantListAdapter.class.getSimpleName();
     private ArrayList<Restaurant> mRestaurants = new ArrayList<>();
     private Context mContext;
@@ -80,7 +82,11 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
         }
 
         public void bindRestaurant(Restaurant restaurant) {
-            Picasso.with(mContext).load(restaurant.getImageUrl()).into(mRestaurantImageView);
+            Picasso.with(mContext)
+                    .load(restaurant.getImageUrl())
+                    .resize(MAX_WIDTH, MAX_HEIGHT)
+                    .centerCrop()
+                    .into(mRestaurantImageView);
             mNameTextView.setText(restaurant.getName());
             mCategoryTextView.setText(restaurant.getCategories().get(0));
             mRatingTextView.setText("Rating: " + restaurant.getRating() + "/5");
