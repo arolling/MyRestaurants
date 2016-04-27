@@ -54,14 +54,16 @@ public class YelpService {
 
         try {
             String jsonData = response.body().string();
-            Log.d("Jsondata", jsonData);
             if (response.isSuccessful()) {
                 JSONObject yelpJSON = new JSONObject(jsonData);
                 JSONArray businessesJSON = yelpJSON.getJSONArray("businesses");
+                Log.v("restaurant qty: ", "" + businessesJSON.length());
                 for (int i = 0; i < businessesJSON.length(); i++) {
                     JSONObject restaurantJSON = businessesJSON.getJSONObject(i);
+                    Log.v("restaurant number: ", "" + i);
+                    Log.v("restaurant json: ", restaurantJSON + "");
                     String name = restaurantJSON.getString("name");
-                    String phone = restaurantJSON.getString("display_phone");
+                    String phone = restaurantJSON.optString("display_phone", "No phone");
                     String website = restaurantJSON.getString("url");
                     double rating = restaurantJSON.getDouble("rating");
                     String imageUrl = restaurantJSON.getString("image_url");

@@ -72,7 +72,6 @@ public class RestaurantListAdapter extends RecyclerView.Adapter<RestaurantListAd
                 @Override
                 public void onClick(View v) {
                     int itemPosition = getLayoutPosition();
-                    Log.v(TAG, "clicked " + itemPosition);
                     Intent intent = new Intent(mContext, RestaurantDetailActivity.class);
                     intent.putExtra("position", itemPosition + "");
                     intent.putExtra("restaurants", Parcels.wrap(mRestaurants));
