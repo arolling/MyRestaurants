@@ -60,8 +60,8 @@ public class YelpService {
                 Log.v("restaurant qty: ", "" + businessesJSON.length());
                 for (int i = 0; i < businessesJSON.length(); i++) {
                     JSONObject restaurantJSON = businessesJSON.getJSONObject(i);
-                    Log.v("restaurant number: ", "" + i);
-                    Log.v("restaurant json: ", restaurantJSON + "");
+                    //Log.v("restaurant number: ", "" + i);
+                    //Log.v("restaurant json: ", restaurantJSON + "");
                     String name = restaurantJSON.getString("name");
                     String phone = restaurantJSON.optString("display_phone", "No phone");
                     String website = restaurantJSON.getString("url");
