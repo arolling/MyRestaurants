@@ -1,6 +1,8 @@
 package com.epicodus.myrestaurants.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +27,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Bind(R.id.findRestaurantsButton) Button mFindRestaurantsButton;
     @Bind(R.id.locationEditText) EditText mLocationEditText;
     @Bind(R.id.savedRestaurantsButton) Button mSavedRestaurantsButton;
+    private SharedPreferences mSharedPreferences;
+    private SharedPreferences.Editor mEditor;
 
 
     @Override
@@ -32,6 +36,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mEditor = mSharedPreferences.edit();
+
 
         mSearchedLocationRef = new Firebase(Constants.FIREBASE_URL_SEARCHED_LOCATION);
 
@@ -63,15 +71,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch(v.getId()){
             case R.id.findRestaurantsButton:
                 String location = mLocationEditText.getText().toString();
-                saveLocationToFirebase(location);
+                //saveLocationToFirebase(location);
 
-                // if(!(location).equals("")) {
-                //       addToSharedPreferences(location);
-                //   }
-
+                if(!(location).equals("")) {
+                    addToSharedPreferences(location);
+                }
 
                 Intent intent = new Intent(MainActivity.this, RestaurantListActivity.class);
-                intent.putExtra("location", location);
                 startActivity(intent);
                 break;
             case R.id.savedRestaurantsButton:
@@ -89,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         searchedLocationRef.push().setValue(location);
     }
 
-    // private void addToSharedPreferences(String location) {
-    //    mEditor.putString(Constants.PREFERENCES_LOCATION_KEY, location).apply();
-    //  }
+     private void addToSharedPreferences(String location) {
+        mEditor.putString(Constants.PREFERENCES_LOCATION_KEY, location).apply();
+      }
 }
