@@ -57,7 +57,6 @@ public class YelpService {
             if (response.isSuccessful()) {
                 JSONObject yelpJSON = new JSONObject(jsonData);
                 JSONArray businessesJSON = yelpJSON.getJSONArray("businesses");
-                Log.v("restaurant qty: ", "" + businessesJSON.length());
                 for (int i = 0; i < businessesJSON.length(); i++) {
                     JSONObject restaurantJSON = businessesJSON.getJSONObject(i);
                     //Log.v("restaurant number: ", "" + i);
@@ -66,7 +65,7 @@ public class YelpService {
                     String phone = restaurantJSON.optString("display_phone", "No phone");
                     String website = restaurantJSON.getString("url");
                     double rating = restaurantJSON.getDouble("rating");
-                    String imageUrl = restaurantJSON.getString("image_url");
+                    String imageUrl = restaurantJSON.optString("image_url", "https://s-media-cache-ak0.pinimg.com/736x/68/d4/c1/68d4c1092837a068a2fe65b8a29b867e.jpg");
                     double latitude = restaurantJSON.getJSONObject("location")
                             .getJSONObject("coordinate").getDouble("latitude");
                     double longitude = restaurantJSON.getJSONObject("location")
